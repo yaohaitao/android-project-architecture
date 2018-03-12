@@ -11,6 +11,15 @@ android {
         versionCode 1
         versionName "1.0.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        // 常量定义
+        buildConfigField 'int', 'CONNECT_TIMEOUT', '10'
+        buildConfigField 'String', 'POST_URL', 'BASE_URL + "post.php"'
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 
     buildTypes {
@@ -37,35 +46,48 @@ android {
             dimension "default"
             applicationIdSuffix ".dev"
             versionNameSuffix "-dev"
+
+            buildConfigField 'String', 'BASE_URL', '"http://10.0.2.2/EditriumAPI/"'
         }
 
         continuousIntegration {
             dimension "default"
             applicationIdSuffix ".ci"
             versionNameSuffix "-ci"
+
+            buildConfigField 'String', 'BASE_URL', '"http://localhost/EditriumAPI/"'
         }
 
         appTest {
             dimension "default"
             applicationIdSuffix ".tesing"
             versionNameSuffix "-testing"
+
+            buildConfigField 'String', 'BASE_URL', '"http://localhost/EditriumAPI/"'
         }
 
         staging {
             dimension "default"
             applicationIdSuffix ".staging"
             versionNameSuffix "-staging"
+
+            buildConfigField 'String', 'BASE_URL', '"http://localhost/EditriumAPI/"'
         }
 
         production {
             dimension "default"
+
+            buildConfigField 'String', 'BASE_URL', '"http://localhost/EditriumAPI/"'
         }
     }
 
     // 删除用不到的 developmentRelease 和 productionDebug
     variantFilter { variant ->
         def names = variant.flavors*.name
-        if (variant.buildType.name == 'release' && names.contains("development")) {
+        if (variant.buildType.name == 'release' &&
+                (names.contains('development') ||
+                 names.contains('appTest') ||
+                 names.contains('continuousIntegration'))) {
             variant.setIgnore(true)
         }
         if (variant.buildType.name == 'debug' && names.contains("production")) {
@@ -86,6 +108,14 @@ dependencies {
     implementation "com.android.support:support-v4:$rootProject.supportLibraryVersion"
     implementation "com.android.support.constraint:constraint-layout:$rootProject.constraintVersion"
     implementation "com.google.guava:guava:$rootProject.guavaVersion"
+    implementation "com.google.code.gson:gson:$rootProject.gsonVersion"
+    implementation "io.reactivex.rxjava2:rxjava:$rootProject.rxjavaVersion"
+    implementation "io.reactivex.rxjava2:rxandroid:$rootProject.rxandroidVersion"
+    implementation "com.squareup.retrofit2:retrofit:$rootProject.retrofit2Version"
+    implementation "com.squareup.retrofit2:adapter-rxjava:$rootProject.retrofit2Version"
+    implementation "com.squareup.retrofit2:converter-gson:$rootProject.retrofit2Version"
+    implementation "com.squareup.okhttp3:logging-interceptor:$rootProject.okhttp3Version"
+    implementation "com.squareup.okhttp3:okhttp:$rootProject.okhttp3Version"
 
     // Dependencies for local unit tests
     testImplementation "junit:junit:$rootProject.ext.junitVersion"

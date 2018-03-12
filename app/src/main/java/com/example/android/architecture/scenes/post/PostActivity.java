@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.example.android.architecture.R;
 import com.example.android.architecture.services.PostService;
+import com.example.android.architecture.services.ServiceProvider;
 import com.example.android.architecture.utils.ActivityUtils;
 
 /**
@@ -25,6 +26,6 @@ public class PostActivity extends AppCompatActivity {
             ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), postFragment, R.id.fl_post_container);
         }
 
-        new PostPresenter(new PostService(), postFragment);
+        new PostPresenter(ServiceProvider.makePostService(), postFragment);
     }
 }

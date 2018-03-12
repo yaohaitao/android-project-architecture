@@ -7,6 +7,10 @@ import com.example.android.architecture.services.PostService;
 
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 /**
  * Created by YaoHaitao on 2018/3/9.
  */
@@ -30,13 +34,27 @@ public class PostPresenter implements PostContract.Presenter {
 
     @Override
     public void loadPosts() {
-        List<Post> posts = mService.fetchPosts();
 
-        if (posts.isEmpty()) {
-            mView.showNoData();
-        } else {
-            mView.showPosts(posts);
-        }
+        Call<List<Post>> call = mService.fetchPosts();
+
+        call.enqueue(new Callback<List<Post>>() {
+            @Override
+            public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
+                final List<Post> posts = response.body();
+                if (posts.isEmpty()) {
+                    mView.showNoData();
+                } else {
+                    mView.showPosts(posts);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Post>> call, Throwable t) {
+                System.out.println("Internet Error");
+            }
+        });
+
+
     }
 
     @Override

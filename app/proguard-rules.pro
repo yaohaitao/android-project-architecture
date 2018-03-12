@@ -116,6 +116,13 @@
 -keep class com.squareup.okhttp3.** { *;}
 -dontwarn okio.**
 
+# Retrofit2
+-dontwarn retrofit2.**
+-keep class retrofit2.** { *; }
+-keepclasseswithmembers class * {
+    @retrofit2.http.* <methods>;
+}
+
 # ProGuard
 -keep public class * implements com.bumptech.glide.module.GlideModule
 -keep public enum com.bumptech.glide.load.resource.bitmap.ImageHeaderParser$** {

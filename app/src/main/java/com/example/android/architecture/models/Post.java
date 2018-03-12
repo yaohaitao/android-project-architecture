@@ -8,26 +8,26 @@ import java.util.Objects;
 
 public class Post {
 
-    private final int mPostId;
-    private final String mTitle;
-    private final String mContent;
+    private final int postId;
+    private final String title;
+    private final String content;
 
     public Post(int postId, String title, String content) {
-        mPostId = postId;
-        mTitle = title;
-        mContent = content;
+        this.postId = postId;
+        this.title = title;
+        this.content = content;
     }
 
     public int getPostId() {
-        return mPostId;
+        return postId;
     }
 
     public String getTitle() {
-        return mTitle;
+        return title;
     }
 
     public String getContent() {
-        return mContent;
+        return content;
     }
 
 
@@ -38,8 +38,8 @@ public class Post {
 
         Post post = (Post) o;
 
-        return Objects.equals(mPostId, post.mPostId) &&
-               Objects.equals(mTitle, post.mTitle) &&
-               Objects.equals(mContent, post.mContent);
+        return Objects.equals(postId, post.postId) &&
+               Objects.equals(title, post.title) &&
+               Objects.equals(content, post.content);
     }
 }

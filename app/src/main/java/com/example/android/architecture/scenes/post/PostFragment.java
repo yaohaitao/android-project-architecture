@@ -24,9 +24,6 @@ import java.util.List;
 
 public class PostFragment extends Fragment implements PostContract.View {
 
-
-
-
     //region 组件声明
     private RecyclerView mRecyclerView;
     private TextView mNoDataTextView;
@@ -77,6 +74,7 @@ public class PostFragment extends Fragment implements PostContract.View {
     }
     //endregion
 
+    //region View Interface
     @Override
     public void setPresenter(PostContract.Presenter presenter) {
         this.mPresenter = presenter;
@@ -101,7 +99,9 @@ public class PostFragment extends Fragment implements PostContract.View {
         // TODO
         System.out.println("TO POST DETAIL");
     }
+    //endregion
 
+    //region Recycler View
     private class PostHolder extends RecyclerView.ViewHolder {
 
         private Post mPost;
@@ -169,4 +169,5 @@ public class PostFragment extends Fragment implements PostContract.View {
             return mPosts.size();
         }
     }
+    //endregion
 }
