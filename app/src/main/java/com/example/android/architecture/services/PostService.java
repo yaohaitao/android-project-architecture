@@ -2,9 +2,13 @@ package com.example.android.architecture.services;
 
 import com.example.android.architecture.data.remote.apis.PostApi;
 import com.example.android.architecture.models.Post;
+import com.google.gson.Gson;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 import retrofit2.Call;
 
@@ -34,5 +38,24 @@ public class PostService {
         return mPostApi.fetchPosts();
     }
 
+    public Call<Post> fetchPostById(int postId) {
+        return mPostApi.fetchPostByPostId(postId);
+    }
+
+    public Call<Post> insertPost(Post post) {
+        Gson gson = new Gson();
+        Map<String, Object> postMap = gson.fromJson(gson.toJson(post), Map.class);
+        return mPostApi.insertPost(postMap);
+    }
+
+    public Call<Post> updatePost(Post post) {
+        Gson gson = new Gson();
+        Map<String, Object> postMap = gson.fromJson(gson.toJson(post), Map.class );
+        return mPostApi.updatePost(postMap);
+    }
+
+    public Call<Post> deletePostByPostId(int postId) {
+        return mPostApi.deletePostByPostId(postId);
+    }
 
 }

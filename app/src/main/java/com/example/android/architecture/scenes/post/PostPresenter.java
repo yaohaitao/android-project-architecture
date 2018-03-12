@@ -50,11 +50,9 @@ public class PostPresenter implements PostContract.Presenter {
 
             @Override
             public void onFailure(Call<List<Post>> call, Throwable t) {
-                System.out.println("Internet Error");
+                t.printStackTrace();
             }
         });
-
-
     }
 
     @Override
