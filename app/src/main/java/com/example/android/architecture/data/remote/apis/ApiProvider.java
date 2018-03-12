@@ -43,8 +43,8 @@ public class ApiProvider {
         return sApiProvider;
     }
 
-    public PostApi makePostApi() {
-        return retrofit.create(PostApi.class);
+    public <Type> Type makeApi(Class<Type> apiType) {
+        return retrofit.create(apiType);
     }
 
     // TODO
