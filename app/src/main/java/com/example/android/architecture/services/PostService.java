@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import io.reactivex.Observable;
 import retrofit2.Call;
 
 /**
@@ -34,27 +35,27 @@ public class PostService {
     //     return mPosts;
     // }
 
-    public Call<List<Post>> fetchPosts() {
+    public Observable<List<Post>> fetchPosts() {
         return mPostApi.fetchPosts();
     }
 
-    public Call<Post> fetchPostById(int postId) {
+    public Observable<Post> fetchPostById(int postId) {
         return mPostApi.fetchPostByPostId(postId);
     }
 
-    public Call<Post> insertPost(Post post) {
+    public Observable<Post> insertPost(Post post) {
         Gson gson = new Gson();
         Map<String, Object> postMap = gson.fromJson(gson.toJson(post), Map.class);
         return mPostApi.insertPost(postMap);
     }
 
-    public Call<Post> updatePost(Post post) {
+    public Observable<Post> updatePost(Post post) {
         Gson gson = new Gson();
         Map<String, Object> postMap = gson.fromJson(gson.toJson(post), Map.class );
         return mPostApi.updatePost(postMap);
     }
 
-    public Call<Post> deletePostByPostId(int postId) {
+    public Observable<Post> deletePostByPostId(int postId) {
         return mPostApi.deletePostByPostId(postId);
     }
 
