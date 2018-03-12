@@ -6,7 +6,7 @@
     android:layout_height="wrap_content">
 
     <TextView
-        android:id="@+id/post_cell_title"
+        android:id="@+id/tv_post_item_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -16,7 +16,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/post_cell_content"
+        android:id="@+id/tv_post_item_content"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
@@ -25,6 +25,6 @@
         android:text="TextView"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/post_cell_title"
-        app:layout_constraintTop_toBottomOf="@+id/post_cell_title" />
+        app:layout_constraintStart_toStartOf="@+id/tv_post_item_title"
+        app:layout_constraintTop_toBottomOf="@+id/tv_post_item_title" />
 </android.support.constraint.ConstraintLayout>

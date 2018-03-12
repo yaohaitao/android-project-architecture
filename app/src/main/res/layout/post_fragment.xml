@@ -7,15 +7,15 @@
     android:layout_height="match_parent">
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/post_recycler_view"
+        android:id="@+id/rv_post"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
     <TextView
-        android:id="@+id/post_empty_text_view"
+        android:id="@+id/tv_post_empty"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/no_data"
+        android:text="@string/post_recycler_list_no_data"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

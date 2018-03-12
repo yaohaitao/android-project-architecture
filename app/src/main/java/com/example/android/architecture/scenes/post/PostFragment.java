@@ -59,12 +59,12 @@ public class PostFragment extends Fragment implements PostContract.View {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.post_fragment, container, false);
 
-        mRecyclerView = root.findViewById(R.id.post_recycler_view);
+        mRecyclerView = root.findViewById(R.id.rv_post);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setAdapter(mPostAdapter);
 
-        mNoDataTextView = root.findViewById(R.id.post_empty_text_view);
+        mNoDataTextView = root.findViewById(R.id.tv_post_empty);
 
         return root;
     }
@@ -110,10 +110,13 @@ public class PostFragment extends Fragment implements PostContract.View {
         private TextView mContentTextVIew;
 
         PostHolder(LayoutInflater inflater, ViewGroup parent) {
-            super(inflater.inflate(R.layout.post_cell_fragment, parent, false));
+            super(inflater.inflate(R.layout.post_recycler_item_fragment, parent, false));
 
-            mTitleTextView = itemView.findViewById(R.id.post_cell_title);
-            mContentTextVIew = itemView.findViewById(R.id.post_cell_content);
+            mTitleTextView = itemView.findViewById(R.id.tv_post_item_title);
+            mContentTextVIew = itemView.findViewById(R.id.tv_post_item_content);
+
+            mTitleTextView.setText("");
+            mContentTextVIew.setText("");
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
