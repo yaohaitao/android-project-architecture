@@ -5,7 +5,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
 import com.example.android.architecture.R;
-import com.example.android.architecture.services.PostService;
 import com.example.android.architecture.services.ServiceProvider;
 import com.example.android.architecture.utils.ActivityUtils;
 

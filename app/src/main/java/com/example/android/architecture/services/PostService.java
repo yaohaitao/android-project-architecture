@@ -4,14 +4,10 @@ import com.example.android.architecture.data.remote.apis.PostApi;
 import com.example.android.architecture.models.Post;
 import com.google.gson.Gson;
 
-import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
-import io.reactivex.Observable;
-import retrofit2.Call;
+import io.reactivex.Flowable;
 
 /**
  * Created by YaoHaitao on 2018/3/8.
@@ -24,38 +20,28 @@ public class PostService {
     public PostService(PostApi postApi) {
         this.mPostApi = postApi;
     }
-    // private List<Post> mPosts = new ArrayList<>();
-    //
-    // public List<Post> fetchPosts() {
-    //     // List<Post> posts = new ArrayList<>();
-    //     for (int i = 1; i <= 5; i++) {
-    //         Post post = new Post(i, "Post title No."+i, "Post content :" + i);
-    //         mPosts.add(post);
-    //     }
-    //     return mPosts;
-    // }
 
-    public Observable<List<Post>> fetchPosts() {
+    public Flowable<List<Post>> fetchPosts() {
         return mPostApi.fetchPosts();
     }
 
-    public Observable<Post> fetchPostById(int postId) {
+    public Flowable<Post> fetchPostById(int postId) {
         return mPostApi.fetchPostByPostId(postId);
     }
 
-    public Observable<Post> insertPost(Post post) {
+    public Flowable<Post> insertPost(Post post) {
         Gson gson = new Gson();
         Map<String, Object> postMap = gson.fromJson(gson.toJson(post), Map.class);
         return mPostApi.insertPost(postMap);
     }
 
-    public Observable<Post> updatePost(Post post) {
+    public Flowable<Post> updatePost(Post post) {
         Gson gson = new Gson();
         Map<String, Object> postMap = gson.fromJson(gson.toJson(post), Map.class );
         return mPostApi.updatePost(postMap);
     }
 
-    public Observable<Post> deletePostByPostId(int postId) {
+    public Flowable<Post> deletePostByPostId(int postId) {
         return mPostApi.deletePostByPostId(postId);
     }
 

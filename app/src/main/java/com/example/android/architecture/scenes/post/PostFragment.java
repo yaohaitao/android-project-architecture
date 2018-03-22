@@ -35,7 +35,7 @@ public class PostFragment extends Fragment implements PostContract.View {
     //endregion
 
     //region 初始化
-    public PostFragment() {}
+    public PostFragment() { super(); }
 
     public static PostFragment newInstance() {
         return new PostFragment();
@@ -97,7 +97,6 @@ public class PostFragment extends Fragment implements PostContract.View {
     @Override
     public void toPostDetail(Post post) {
         // TODO
-        System.out.println("TO POST DETAIL");
     }
     //endregion
 
