@@ -11,10 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import com.example.android.architecture.R;
 import com.example.android.architecture.models.Post;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,149 +22,151 @@ import java.util.List;
 
 public class PostFragment extends Fragment implements PostContract.View {
 
-    //region 组件声明
-    private RecyclerView mRecyclerView;
-    private TextView mNoDataTextView;
-    //endregion
+  //region 组件声明
+  private RecyclerView mRecyclerView;
+  private TextView mNoDataTextView;
+  //endregion
 
-    //region 私有变量声明
-    private PostContract.Presenter mPresenter;
-    private PostAdapter mPostAdapter;
-    //endregion
+  //region 私有变量声明
+  private PostContract.Presenter mPresenter;
+  private PostAdapter mPostAdapter;
+  //endregion
 
-    //region 初始化
-    public PostFragment() { super(); }
+  //region 初始化
+  public PostFragment() {
+    super();
+  }
 
-    public static PostFragment newInstance() {
-        return new PostFragment();
-    }
-    //endregion
+  public static PostFragment newInstance() {
+    return new PostFragment();
+  }
+  //endregion
 
+  //region View 生命周期
+  @Override
+  public void onCreate(@Nullable Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
 
-    //region View 生命周期
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    mPostAdapter = new PostAdapter(new ArrayList<Post>());
+  }
 
-        mPostAdapter = new PostAdapter(new ArrayList<Post>());
-    }
+  @Nullable
+  @Override
+  public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+      @Nullable Bundle savedInstanceState) {
+    View root = inflater.inflate(R.layout.post_fragment, container, false);
 
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.post_fragment, container, false);
+    mRecyclerView = root.findViewById(R.id.rv_post);
+    mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+    mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+    mRecyclerView.setAdapter(mPostAdapter);
 
-        mRecyclerView = root.findViewById(R.id.rv_post);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        mRecyclerView.setAdapter(mPostAdapter);
+    mNoDataTextView = root.findViewById(R.id.tv_post_empty);
 
-        mNoDataTextView = root.findViewById(R.id.tv_post_empty);
+    return root;
+  }
 
-        return root;
-    }
+  @Override
+  public void onResume() {
+    super.onResume();
 
-    @Override
-    public void onResume() {
-        super.onResume();
+    mPresenter.start();
+  }
+  //endregion
 
-        mPresenter.start();
-    }
-    //endregion
+  //region View Interface
+  @Override
+  public void setPresenter(PostContract.Presenter presenter) {
+    this.mPresenter = presenter;
+  }
 
-    //region View Interface
-    @Override
-    public void setPresenter(PostContract.Presenter presenter) {
-        this.mPresenter = presenter;
-    }
+  @Override
+  public void showPosts(List<Post> posts) {
+    mPostAdapter.replaceData(posts);
 
-    @Override
-    public void showPosts(List<Post> posts) {
-        mPostAdapter.replaceData(posts);
+    mRecyclerView.setVisibility(View.VISIBLE);
+    mNoDataTextView.setVisibility(View.GONE);
+  }
 
-        mRecyclerView.setVisibility(View.VISIBLE);
-        mNoDataTextView.setVisibility(View.GONE);
-    }
+  @Override
+  public void showNoData() {
+    mRecyclerView.setVisibility(View.GONE);
+    mNoDataTextView.setVisibility(View.VISIBLE);
+  }
 
-    @Override
-    public void showNoData() {
-        mRecyclerView.setVisibility(View.GONE);
-        mNoDataTextView.setVisibility(View.VISIBLE);
-    }
+  @Override
+  public void toPostDetail(Post post) {
+    // TODO
+  }
+  //endregion
 
-    @Override
-    public void toPostDetail(Post post) {
-        // TODO
-    }
-    //endregion
+  //region Recycler View
+  private class PostHolder extends RecyclerView.ViewHolder {
 
-    //region Recycler View
-    private class PostHolder extends RecyclerView.ViewHolder {
+    private Post mPost;
 
-        private Post mPost;
+    private TextView mTitleTextView;
+    private TextView mContentTextVIew;
 
-        private TextView mTitleTextView;
-        private TextView mContentTextVIew;
+    PostHolder(LayoutInflater inflater, ViewGroup parent) {
+      super(inflater.inflate(R.layout.post_recycler_item_fragment, parent, false));
 
-        PostHolder(LayoutInflater inflater, ViewGroup parent) {
-            super(inflater.inflate(R.layout.post_recycler_item_fragment, parent, false));
+      mTitleTextView = itemView.findViewById(R.id.tv_post_item_title);
+      mContentTextVIew = itemView.findViewById(R.id.tv_post_item_content);
 
-            mTitleTextView = itemView.findViewById(R.id.tv_post_item_title);
-            mContentTextVIew = itemView.findViewById(R.id.tv_post_item_content);
+      mTitleTextView.setText("");
+      mContentTextVIew.setText("");
 
-            mTitleTextView.setText("");
-            mContentTextVIew.setText("");
-
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mPresenter.toPostDetail(mPost);
-                }
-            });
-        }
-
-        void binding(Post post) {
-            mPost = post;
-
-            mTitleTextView.setText(post.getTitle());
-            mContentTextVIew.setText(post.getContent());
-        }
-    }
-
-    private class PostAdapter extends RecyclerView.Adapter<PostHolder> {
-
-        private List<Post> mPosts;
-
-        PostAdapter(List<Post> posts) {
-            setPosts(posts);
-        }
-
-        void replaceData(List<Post> posts) {
-            setPosts(posts);
-            notifyDataSetChanged();
-        }
-
-        private void setPosts(List<Post> posts) {
-            mPosts = posts;
-        }
-
-        @NonNull
+      itemView.setOnClickListener(new View.OnClickListener() {
         @Override
-        public PostHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            LayoutInflater inflater = LayoutInflater.from(getActivity());
-            return new PostHolder(inflater, parent);
+        public void onClick(View v) {
+          mPresenter.toPostDetail(mPost);
         }
-
-        @Override
-        public void onBindViewHolder(@NonNull PostHolder holder, int position) {
-            Post post = mPosts.get(position);
-            holder.binding(post);
-        }
-
-        @Override
-        public int getItemCount() {
-            return mPosts.size();
-        }
+      });
     }
-    //endregion
+
+    void binding(Post post) {
+      mPost = post;
+
+      mTitleTextView.setText(post.getTitle());
+      mContentTextVIew.setText(post.getContent());
+    }
+  }
+
+  private class PostAdapter extends RecyclerView.Adapter<PostHolder> {
+
+    private List<Post> mPosts;
+
+    PostAdapter(List<Post> posts) {
+      setPosts(posts);
+    }
+
+    void replaceData(List<Post> posts) {
+      setPosts(posts);
+      notifyDataSetChanged();
+    }
+
+    private void setPosts(List<Post> posts) {
+      mPosts = posts;
+    }
+
+    @NonNull
+    @Override
+    public PostHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+      LayoutInflater inflater = LayoutInflater.from(getActivity());
+      return new PostHolder(inflater, parent);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull PostHolder holder, int position) {
+      Post post = mPosts.get(position);
+      holder.binding(post);
+    }
+
+    @Override
+    public int getItemCount() {
+      return mPosts.size();
+    }
+  }
+  //endregion
 }

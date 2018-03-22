@@ -8,10 +8,10 @@ import com.example.android.architecture.data.remote.apis.ApiProvider;
 
 public class ServiceProvider {
 
-    private ServiceProvider() {}
+  private ServiceProvider() {
+  }
 
-    public static PostService makePostService() {
-        return new PostService(ApiProvider.makePostAPI());
-    }
-
+  public static PostService makePostService() {
+    return new PostService(ApiProvider.makePostAPI());
+  }
 }

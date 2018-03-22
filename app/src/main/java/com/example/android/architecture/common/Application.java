@@ -5,5 +5,4 @@ package com.example.android.architecture.common;
  */
 
 public class Application extends android.app.Application {
-
 }

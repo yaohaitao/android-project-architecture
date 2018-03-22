@@ -6,5 +6,5 @@ package com.example.android.architecture.scenes;
 
 public interface BasePresenter {
 
-    void start();
+  void start();
 }

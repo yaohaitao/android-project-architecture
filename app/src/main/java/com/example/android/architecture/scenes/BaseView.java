@@ -6,6 +6,5 @@ package com.example.android.architecture.scenes;
 
 public interface BaseView<T extends BasePresenter> {
 
-    void setPresenter(T presenter);
-
+  void setPresenter(T presenter);
 }
