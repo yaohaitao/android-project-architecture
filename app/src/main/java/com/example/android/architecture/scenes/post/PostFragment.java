@@ -117,12 +117,9 @@ public class PostFragment extends Fragment implements PostContract.View {
       mTitleTextView.setText("");
       mContentTextVIew.setText("");
 
-      itemView.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-          mPresenter.toPostDetail(mPost);
-        }
-      });
+      itemView.setOnClickListener(
+          view -> mPresenter.toPostDetail(mPost)
+      );
     }
 
     void binding(Post post) {

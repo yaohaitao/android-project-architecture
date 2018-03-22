@@ -37,6 +37,7 @@ public class PostPresenter implements PostContract.Presenter {
 
     Flowable<List<Post>> flowable = mService.fetchPosts();
 
+    // Error
     Disposable disposable = flowable.observeOn(AndroidSchedulers.mainThread()).subscribe(
         posts -> {
           if (posts.isEmpty()) {
@@ -45,10 +46,7 @@ public class PostPresenter implements PostContract.Presenter {
             mView.showPosts(posts);
           }
         },
-        throwable -> {
-          // Error
-          throwable.printStackTrace();
-        }
+        Throwable::printStackTrace
     );
 
     mCompositeDisposable.add(disposable);
