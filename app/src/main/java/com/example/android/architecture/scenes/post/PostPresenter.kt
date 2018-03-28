@@ -10,7 +10,7 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 
 /**
- * Created by YaoHaitao on 2018/3/23.
+ * ポストのプレゼンター
  */
 class PostPresenter(
   private val service: PostService,
@@ -49,4 +49,5 @@ class PostPresenter(
   override fun didPostItemClicked(withPost: Post) {
     view.toPostDetail(withPost)
   }
+
 }

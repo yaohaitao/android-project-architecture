@@ -1,10 +1,10 @@
 package com.example.android.architecture.utils
 
 import com.example.android.architecture.data.remote.Network
-import com.example.android.architecture.data.remote.apis.PostApi
+import com.example.android.architecture.data.remote.PostApi
 
 /**
- * Created by YaoHaitao on 2018/3/23.
+ * サーバーと接続できるAPIインスタンスを提供。
  */
 object ApiProvider {
 

@@ -9,7 +9,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit.SECONDS
 
 /**
- * Created by YaoHaitao on 2018/3/23.
+ * Retrofitのインスタンスを作成する。
+ * APIインターフェースをインスタンスできる。
  */
 object Network {
 

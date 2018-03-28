@@ -1,4 +1,4 @@
-package com.example.android.architecture.data.remote.apis
+package com.example.android.architecture.data.remote
 
 import com.example.android.architecture.BuildConfig
 import com.example.android.architecture.models.Post
@@ -12,7 +12,7 @@ import retrofit2.http.PUT
 import retrofit2.http.Query
 
 /**
- * Created by YaoHaitao on 2018/3/23.
+ *　サーバーと通信する時、詳しく定義する
  */
 interface PostApi {
 

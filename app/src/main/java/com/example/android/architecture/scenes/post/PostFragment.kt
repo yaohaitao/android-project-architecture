@@ -16,7 +16,7 @@ import com.example.android.architecture.models.Post
 import com.example.android.architecture.scenes.post.PostContract.Presenter
 
 /**
- * Created by YaoHaitao on 2018/3/23.
+ * ポストのフラグメント
  */
 class PostFragment : Fragment(), PostContract.View {
 

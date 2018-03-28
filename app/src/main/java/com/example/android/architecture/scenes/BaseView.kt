@@ -1,9 +1,11 @@
 package com.example.android.architecture.scenes
 
 /**
- * Created by YaoHaitao on 2018/3/23.
+ * 基礎となるビューインターフェース。
  */
 interface BaseView <T: BasePresenter> {
-
+  /**
+   * ビューの中に、プレゼンターが必要だ。
+   */
   var presenter: T
 }

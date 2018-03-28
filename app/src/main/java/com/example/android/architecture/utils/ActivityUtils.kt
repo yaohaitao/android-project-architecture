@@ -6,7 +6,7 @@ import android.support.v4.app.FragmentTransaction
 import org.jetbrains.annotations.NotNull
 
 /**
- * Created by YaoHaitao on 2018/3/23.
+ * アクティビティーに関する操作を提供する。
  */
 object ActivityUtils {
 

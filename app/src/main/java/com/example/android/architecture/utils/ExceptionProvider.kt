@@ -1,8 +1,7 @@
 package com.example.android.architecture.utils
 
 /**
- * Created by YaoHaitao on 2018/3/23.
+ * 例外のインスタンスを提供する。
  */
-
 class ExceptionProvider {
 }

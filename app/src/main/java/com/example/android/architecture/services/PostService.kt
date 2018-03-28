@@ -1,11 +1,12 @@
 package com.example.android.architecture.services
 
-import com.example.android.architecture.data.remote.apis.PostApi
+import com.example.android.architecture.data.remote.PostApi
 import com.example.android.architecture.models.Post
 import com.google.gson.Gson
 
 /**
- * Created by YaoHaitao on 2018/3/23.
+ * ポストサービス
+ * ポストに関する操作はここで実装される。
  */
 class PostService constructor(val postApi: PostApi) {
 

@@ -1,9 +1,11 @@
 package com.example.android.architecture.scenes
 
 /**
- * Created by YaoHaitao on 2018/3/23.
+ * 基礎となるプレゼンターインターフェース。
  */
 interface BasePresenter {
-
+  /**
+   *　バインディングをこの方法から始める。
+   */
   fun start()
 }

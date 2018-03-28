@@ -7,7 +7,7 @@ import com.example.android.architecture.utils.ActivityUtils
 import com.example.android.architecture.utils.ServiceProvider
 
 /**
- * Created by YaoHaitao on 2018/3/23.
+ * ポストのアクティビティ
  */
 class PostActivity : AppCompatActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {

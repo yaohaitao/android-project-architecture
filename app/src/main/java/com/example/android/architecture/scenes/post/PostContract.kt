@@ -4,40 +4,44 @@ import com.example.android.architecture.models.Post
 import com.example.android.architecture.scenes.BasePresenter
 import com.example.android.architecture.scenes.BaseView
 
-/**
- * Created by YaoHaitao on 2018/3/23.
- */
 interface PostContract {
-
+  /**
+   * ポストプレゼンターのインターフェース。
+   * ロジック処理に関する方法はここで定義する。
+    */
   interface Presenter : BasePresenter {
     /**
-     * 加载帖子数据
+     * ポストデーターの読込。
      */
     fun loadPosts()
 
     /**
-     * 跳转至帖子详情
+     * 一つポストアイテムを押したら実行される。
      */
     fun didPostItemClicked(withPost: Post)
   }
 
+  /**
+   * ポストビューのインターフェース。
+   * 画面に関する方法はここで定義する。
+   */
   interface View : BaseView<Presenter> {
     /**
-     * 显示相应的帖子数据
+     * ポストデーターを表示させる。
      *
-     * @param posts 被展示的帖子数据
+     * @param posts 表示されるべきポストデーター。
      */
     fun showPosts(posts: List<Post>)
 
     /**
-     * 数据为空时设置需要被显示的内容
+     * データーは空だったら表示させるべきビュー。
      */
     fun showNoData()
 
     /**
-     * 页面跳转至帖子详情
+     * ポストディティール画面へ遷移する。
      *
-     * @param post 被展示的帖子数据
+     * @param post ディティール画面で、表示されるべきポスト。
      */
     fun toPostDetail(post: Post)
   }
