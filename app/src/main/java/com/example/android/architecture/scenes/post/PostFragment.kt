@@ -68,7 +68,7 @@ class PostFragment : Fragment(), PostContract.View {
     noDataTextView.visibility = View.VISIBLE
   }
 
-  override fun didPostClicked(post: Post) {
+  override fun toPostDetail(post: Post) {
     TODO(
         "not implemented"
     ) //To change body of created functions use File | Settings | File Templates.
@@ -86,7 +86,7 @@ class PostFragment : Fragment(), PostContract.View {
 
     init {
       itemView.setOnClickListener({
-        presenter.toPostDetail(post)
+        presenter.didPostItemClicked(post)
       })
     }
 

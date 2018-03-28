@@ -18,7 +18,7 @@ interface PostContract {
     /**
      * 跳转至帖子详情
      */
-    fun toPostDetail(withPost: Post)
+    fun didPostItemClicked(withPost: Post)
   }
 
   interface View : BaseView<Presenter> {
@@ -39,6 +39,6 @@ interface PostContract {
      *
      * @param post 被展示的帖子数据
      */
-    fun didPostClicked(post: Post)
+    fun toPostDetail(post: Post)
   }
 }
