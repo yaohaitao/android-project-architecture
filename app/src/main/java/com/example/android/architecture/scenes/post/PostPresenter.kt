@@ -45,9 +45,4 @@ class PostPresenter(
 
     compositeDisposable.add(disposable)
   }
-
-  override fun didPostItemClicked(withPost: Post) {
-    view.toPostDetail(withPost)
-  }
-
 }

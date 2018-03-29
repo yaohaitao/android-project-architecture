@@ -18,7 +18,7 @@ interface PostContract {
     /**
      * 一つポストアイテムを押したら実行される。
      */
-    fun didPostItemClicked(withPost: Post)
+//    fun toPostDetailView(withPost: Post)
   }
 
   /**
@@ -41,8 +41,8 @@ interface PostContract {
     /**
      * ポストディティール画面へ遷移する。
      *
-     * @param post ディティール画面で、表示されるべきポスト。
+     * @param postId ディティール画面で、表示されるべきポスト。
      */
-    fun toPostDetail(post: Post)
+    fun toPostDetailView(postId: Int)
   }
 }
