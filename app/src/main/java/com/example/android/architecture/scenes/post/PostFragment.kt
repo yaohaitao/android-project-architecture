@@ -14,6 +14,10 @@ import android.widget.TextView
 import com.example.android.architecture.R
 import com.example.android.architecture.models.Post
 import com.example.android.architecture.scenes.post.PostContract.Presenter
+import com.example.android.architecture.scenes.postdetail.EXTRA_POST_ID
+import com.example.android.architecture.scenes.postdetail.PostDetailActivity
+import com.example.android.architecture.utils.startActivity
+
 
 /**
  * Created by YaoHaitao on 2018/3/23.
@@ -68,11 +72,12 @@ class PostFragment : Fragment(), PostContract.View {
     noDataTextView.visibility = View.VISIBLE
   }
 
-  override fun toPostDetail(post: Post) {
-    TODO(
-        "not implemented"
-    ) //To change body of created functions use File | Settings | File Templates.
+  override fun toPostDetailView(postId: Int) {
+    val bundle = Bundle()
+    bundle.putInt(EXTRA_POST_ID, postId)
+    startActivity(cls = PostDetailActivity::class.java, extras = bundle)
   }
+
 
   inner class PostHolder internal constructor(
     inflater: LayoutInflater,
@@ -86,7 +91,7 @@ class PostFragment : Fragment(), PostContract.View {
 
     init {
       itemView.setOnClickListener({
-        presenter.didPostItemClicked(post)
+        toPostDetailView(post.postId)
       })
     }
 
