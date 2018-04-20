@@ -3,8 +3,8 @@ package com.example.android.architecture.scenes.postdetail
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.example.android.architecture.R
-import com.example.android.architecture.utils.addFragment
-import com.example.android.architecture.utils.makePostService
+import com.example.android.architecture.utils.ActivityUtils
+import com.example.android.architecture.utils.ServiceProvider
 
 const val EXTRA_POST_ID = "POST_ID"
 /**
@@ -22,10 +22,10 @@ class PostDetailActivity : AppCompatActivity() {
 
     if (postDetailFragment == null) {
       postDetailFragment = PostDetailFragment()
-      addFragment(super.getSupportFragmentManager(), postDetailFragment, R.id.fl_post_detail_container)
+      ActivityUtils.addFragment(super.getSupportFragmentManager(), postDetailFragment, R.id.fl_post_detail_container)
     }
 
-    PostDetailPresenter(makePostService(), postDetailFragment, postId)
+    PostDetailPresenter(ServiceProvider.makePostService(), postDetailFragment, postId)
   }
 
 }

@@ -1,0 +1,195 @@
+package com.example.android.architecture.scenes.login
+
+import android.annotation.TargetApi
+import android.hardware.fingerprint.FingerprintManager
+import android.os.Build.VERSION_CODES
+import android.security.keystore.KeyGenParameterSpec
+import android.security.keystore.KeyPermanentlyInvalidatedException
+import android.security.keystore.KeyProperties
+import com.example.android.architecture.common.Constants
+import com.example.android.architecture.models.Result
+import com.example.android.architecture.models.User
+import com.example.android.architecture.scenes.login.LoginContract.Presenter
+import com.example.android.architecture.scenes.login.LoginContract.View
+import com.example.android.architecture.scenes.post.PostActivity
+import com.example.android.architecture.scenes.widget.FingerprintAuthenticationDialogFragment
+import com.example.android.architecture.scenes.widget.FingerprintUiHelper
+import com.example.android.architecture.scenes.widget.canUseFingerprint
+import com.example.android.architecture.services.UserService
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
+import java.io.IOException
+import java.security.InvalidAlgorithmParameterException
+import java.security.InvalidKeyException
+import java.security.KeyStore
+import java.security.KeyStoreException
+import java.security.NoSuchAlgorithmException
+import java.security.NoSuchProviderException
+import java.security.UnrecoverableKeyException
+import java.security.cert.CertificateException
+import javax.crypto.Cipher
+import javax.crypto.KeyGenerator
+import javax.crypto.NoSuchPaddingException
+import javax.crypto.SecretKey
+
+class LoginPresenter(
+  private val service: UserService,
+  private val view: View
+) : Presenter {
+
+  companion object {
+    const val ANDROID_KEY_STORE = "AndroidKeyStore"
+    const val KEY_NAME = "FingerprintKeyName"
+  }
+
+  private val compositeDisposable: CompositeDisposable = CompositeDisposable()
+  // FP.1 声明 KeyStore 与 KeyGenerator
+  private lateinit var keyStore: KeyStore
+  private lateinit var keyGenerator: KeyGenerator
+  private lateinit var cipher: Cipher
+
+  init {
+    view.presenter = this
+  }
+
+  override fun start() {
+
+    if (canUseFingerprint() && Constants.enableFingerprintLogin) {
+      view.isEnableFingerprintLoginButton(true)
+      // FP.2 实例化 KeyStore 与 KeyGenerator
+      setupKeyStoreAndKeyGenerator()
+      // FP.3 声明并实例化 Cipher
+      setupCipher()
+      // FP.4 LoginFragment->L.51
+      // FP.5 创建 Key
+      createKey(KEY_NAME)
+    } else {
+      view.isEnableFingerprintLoginButton(false)
+    }
+
+  }
+
+  override fun userLogin(user: User) {
+    val disposable: Disposable = service.userLogin(user)
+        .subscribe({ result: Result<User>? ->
+          if (result == null || result.status == 0) {
+            view.showToast("Error username or password!")
+          } else {
+            view.navigateTo(PostActivity::class.java)
+          }
+        }, { error: Throwable? ->
+          error!!.printStackTrace()
+        })
+    compositeDisposable.add(disposable)
+  }
+
+  @TargetApi(VERSION_CODES.M)
+  override fun generateFingerprintAuthenticationDialogFragment(): FingerprintAuthenticationDialogFragment {
+    // FP.4.1 声明指纹弹出来的小窗口
+    return FingerprintAuthenticationDialogFragment().also {
+      // FP.4.2 使用 Cipher 生成指纹管理器
+      it.setCryptoObject(FingerprintManager.CryptoObject(cipher))
+      // FP.4.3 设置回调
+      it.setCallback(this)
+      // FP.4.4 初始化 Cipher （进一步设置）
+      initCipher(cipher)
+    }
+  }
+
+  @TargetApi(VERSION_CODES.M)
+  private fun initCipher(cipher: Cipher): Boolean {
+    try {
+      // FP.4.4.1 设置 cipher 为加密模式，从 store 中，根据键名获取 SecretKey，PS key 会被提前创建的FP.5
+      keyStore.load(null)
+      cipher.init(Cipher.ENCRYPT_MODE, keyStore.getKey(KEY_NAME, null) as SecretKey)
+      return true
+    } catch (e: Exception) {
+      when (e) {
+        is KeyPermanentlyInvalidatedException -> return false
+        is KeyStoreException,
+        is CertificateException,
+        is UnrecoverableKeyException,
+        is IOException,
+        is NoSuchAlgorithmException,
+        is InvalidKeyException -> throw RuntimeException("Failed to init Cipher", e)
+        else -> throw e
+      }
+    }
+  }
+
+  override fun success() {
+    view.navigateTo(PostActivity::class.java)
+  }
+
+  @TargetApi(VERSION_CODES.M)
+  override fun createKey(
+    keyName: String
+  ) {
+    try {
+      // FP.5.1 读取 store
+      keyStore.load(null)
+      // FP.5.2 声明 Key 的属性
+      val keyProperties = KeyProperties.PURPOSE_ENCRYPT or KeyProperties.PURPOSE_DECRYPT
+      // FP.5.3 设置 Builder
+      val builder = KeyGenParameterSpec.Builder(keyName, keyProperties)
+          .setBlockModes(KeyProperties.BLOCK_MODE_CBC)
+          .setUserAuthenticationRequired(true)
+          .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_PKCS7)
+      // FP.5.4 使用 Generator 生成 Key，会自动储存在 Store
+      keyGenerator.run {
+        init(builder.build())
+        generateKey()
+      }
+    } catch (e: Exception) {
+      when (e) {
+        is NoSuchAlgorithmException,
+        is InvalidAlgorithmParameterException,
+        is CertificateException,
+        is IOException -> throw RuntimeException(e)
+        else -> throw e
+      }
+    }
+  }
+
+  @TargetApi(VERSION_CODES.M)
+  private fun setupKeyStoreAndKeyGenerator() {
+    try {
+      // FP.2.1 实例化 KeyStore
+      keyStore = KeyStore.getInstance(ANDROID_KEY_STORE)
+    } catch (e: KeyStoreException) {
+      throw RuntimeException("Failed to get an instance of KeyStore", e)
+    }
+
+    try {
+      // FP.2.2 实例化 KeyGenerator
+      keyGenerator = KeyGenerator.getInstance(
+          KeyProperties.KEY_ALGORITHM_AES, ANDROID_KEY_STORE
+      )
+    } catch (e: Exception) {
+      when (e) {
+        is NoSuchAlgorithmException,
+        is NoSuchProviderException ->
+          throw RuntimeException("Failed to get an instance of KeyGenerator", e)
+        else -> throw e
+      }
+    }
+  }
+
+  @TargetApi(VERSION_CODES.M)
+  private fun setupCipher() {
+    try {
+      // FP.3.1 声明算法，根据算法，生成 Cipher
+      val cipherString =
+        "${KeyProperties.KEY_ALGORITHM_AES}/${KeyProperties.BLOCK_MODE_CBC}/${KeyProperties.ENCRYPTION_PADDING_PKCS7}"
+      cipher = Cipher.getInstance(cipherString)
+    } catch (e: Exception) {
+      when (e) {
+        is NoSuchAlgorithmException,
+        is NoSuchPaddingException ->
+          throw RuntimeException("Failed to get an instance of Cipher", e)
+        else -> throw e
+      }
+    }
+  }
+
+}

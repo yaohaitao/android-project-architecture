@@ -7,7 +7,7 @@ import com.google.gson.Gson
 /**
  * Created by YaoHaitao on 2018/3/23.
  */
-class PostService constructor(val postApi: PostApi) {
+class PostService constructor(private val postApi: PostApi) {
 
   fun fetchPosts() = postApi.fetchPosts()
 

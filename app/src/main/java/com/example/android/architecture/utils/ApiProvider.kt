@@ -2,9 +2,12 @@ package com.example.android.architecture.utils
 
 import com.example.android.architecture.data.remote.Network
 import com.example.android.architecture.data.remote.apis.PostApi
+import com.example.android.architecture.data.remote.apis.UserApi
 
-/**
- * Created by YaoHaitao on 2018/3/23.
- */
-fun makePostApi(): PostApi = Network.makeApi(
-    PostApi::class.java)
+object ApiProvider {
+
+  fun makePostApi() = Network.makeApi(PostApi::class.java)
+
+  fun makeUserApi() = Network.makeApi(UserApi::class.java)
+}
+
