@@ -14,7 +14,7 @@
  * limitations under the License
  */
 
-package com.example.android.architecture.scenes.widget
+package com.example.android.architecture.utils
 
 import android.annotation.TargetApi
 import android.app.KeyguardManager
@@ -25,7 +25,6 @@ import android.os.CancellationSignal
 import android.widget.ImageView
 import android.widget.TextView
 import com.example.android.architecture.R
-import com.example.android.architecture.utils.ActivityUtils
 
 /**
  * Small helper class to manage text/icon around fingerprint authentication UI.
@@ -74,7 +73,9 @@ internal constructor(private val fingerprintMgr: FingerprintManager,
     override fun onAuthenticationError(errMsgId: Int, errString: CharSequence) {
         if (!selfCancelled) {
             showError(errString)
-            icon.postDelayed({ callback.onError() }, ERROR_TIMEOUT_MILLIS)
+            icon.postDelayed({ callback.onError() },
+                ERROR_TIMEOUT_MILLIS
+            )
         }
     }
 
@@ -92,7 +93,9 @@ internal constructor(private val fingerprintMgr: FingerprintManager,
         }
         icon.run {
             setImageResource(R.drawable.ic_fingerprint_success)
-            postDelayed({ callback.onAuthenticated() }, SUCCESS_DELAY_MILLIS)
+            postDelayed({ callback.onAuthenticated() },
+                SUCCESS_DELAY_MILLIS
+            )
         }
     }
 
@@ -102,7 +105,9 @@ internal constructor(private val fingerprintMgr: FingerprintManager,
             text = error
             setTextColor(errorTextView.resources.getColor(R.color.warning_color, null))
             removeCallbacks(resetErrorTextRunnable)
-            postDelayed(resetErrorTextRunnable, ERROR_TIMEOUT_MILLIS)
+            postDelayed(resetErrorTextRunnable,
+                ERROR_TIMEOUT_MILLIS
+            )
         }
     }
 

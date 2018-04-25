@@ -5,7 +5,7 @@ import com.example.android.architecture.models.Post
 import com.example.android.architecture.scenes.post.PostContract.Presenter
 import com.example.android.architecture.scenes.post.PostContract.View
 import com.example.android.architecture.scenes.widget.FingerprintAlertDialogFragment
-import com.example.android.architecture.scenes.widget.canUseFingerprint
+import com.example.android.architecture.utils.canUseFingerprint
 import com.example.android.architecture.services.PostService
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable

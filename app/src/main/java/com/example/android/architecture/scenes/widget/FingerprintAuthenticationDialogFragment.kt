@@ -18,18 +18,15 @@ package com.example.android.architecture.scenes.widget
 
 import android.annotation.TargetApi
 import android.app.DialogFragment
-import android.content.Context
-import android.content.SharedPreferences
 import android.hardware.fingerprint.FingerprintManager
 import android.os.Build.VERSION_CODES
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import com.example.android.architecture.R
+import com.example.android.architecture.utils.FingerprintUiHelper
 
 @TargetApi(VERSION_CODES.M)
 /**

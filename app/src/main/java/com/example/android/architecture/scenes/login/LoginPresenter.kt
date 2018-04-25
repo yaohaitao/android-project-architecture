@@ -13,8 +13,7 @@ import com.example.android.architecture.scenes.login.LoginContract.Presenter
 import com.example.android.architecture.scenes.login.LoginContract.View
 import com.example.android.architecture.scenes.post.PostActivity
 import com.example.android.architecture.scenes.widget.FingerprintAuthenticationDialogFragment
-import com.example.android.architecture.scenes.widget.FingerprintUiHelper
-import com.example.android.architecture.scenes.widget.canUseFingerprint
+import com.example.android.architecture.utils.canUseFingerprint
 import com.example.android.architecture.services.UserService
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
