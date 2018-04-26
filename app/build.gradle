@@ -12,16 +12,18 @@ android {
     versionCode 1
     versionName "1.0.0"
     testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    vectorDrawables.useSupportLibrary = true
 
     // 定数の定義
     buildConfigField 'Long', 'CONNECT_TIMEOUT', '10L'
     buildConfigField 'String', 'POST_URL', 'BASE_URL + "post.php"'
+    buildConfigField 'String', 'USER_URL', 'BASE_URL + "user.php"'
   }
 
-  //    compileOptions {
-  //        sourceCompatibility JavaVersion.VERSION_1_8
-  //        targetCompatibility JavaVersion.VERSION_1_8
-  //    }
+  compileOptions {
+    sourceCompatibility JavaVersion.VERSION_1_8
+    targetCompatibility JavaVersion.VERSION_1_8
+  }
 
   buildTypes {
     debug {
@@ -116,6 +118,7 @@ dependencies {
   implementation "com.squareup.retrofit2:converter-gson:$rootProject.retrofit2Version"
   implementation "com.squareup.okhttp3:logging-interceptor:$rootProject.okhttp3Version"
   implementation "com.squareup.okhttp3:okhttp:$rootProject.okhttp3Version"
+  implementation "com.orhanobut:hawk:$rootProject.hawkVersion"
 
   // Dependencies for local unit tests
   testImplementation "junit:junit:$rootProject.ext.junitVersion"
@@ -129,7 +132,7 @@ dependencies {
   // Dependencies for Android unit tests
   androidTestImplementation "junit:junit:$rootProject.ext.junitVersion"
   androidTestImplementation "com.android.support.test.espresso:espresso-core:$rootProject.espressoVersion"
-  compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+  compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
 repositories {
   mavenCentral()

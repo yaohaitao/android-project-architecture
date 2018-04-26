@@ -1,5 +1,6 @@
 package com.example.android.architecture.scenes.post
 
+import android.support.v4.app.DialogFragment
 import com.example.android.architecture.models.Post
 import com.example.android.architecture.scenes.BasePresenter
 import com.example.android.architecture.scenes.BaseView
@@ -18,7 +19,8 @@ interface PostContract {
     /**
      * 一つポストアイテムを押したら実行される。
      */
-//    fun toPostDetailView(withPost: Post)
+    //    fun toPostDetailView(withPost: Post)
+
   }
 
   /**
@@ -44,5 +46,11 @@ interface PostContract {
      * @param postId ディティール画面で、表示されるべきポスト。
      */
     fun toPostDetailView(postId: Int)
+
+    /**
+     * TODO("Add Comment")
+     */
+    fun setFingerprintSwitchStatus(isOn: Boolean, isEnabled: Boolean)
+    fun showDialogFragment(dialogFragment: DialogFragment)
   }
 }

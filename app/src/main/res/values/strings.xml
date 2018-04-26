@@ -3,4 +3,6 @@
     <string name="post_recycler_list_no_data">No Data</string>
   <string name="content">Content</string>
   <string name="title">Title</string>
+  <string name="fingerprint_switch">指紋認証を可能になる</string>
+  <string name="fingerprint_switch_not_supported">指紋認証を可能になる (サポータされない)</string>
 </resources>

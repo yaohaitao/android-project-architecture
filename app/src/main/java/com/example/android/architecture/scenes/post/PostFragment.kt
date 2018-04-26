@@ -1,6 +1,7 @@
 package com.example.android.architecture.scenes.post
 
 import android.os.Bundle
+import android.support.v4.app.DialogFragment
 import android.support.v4.app.Fragment
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
@@ -10,13 +11,15 @@ import android.support.v7.widget.RecyclerView.ViewHolder
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Switch
 import android.widget.TextView
 import com.example.android.architecture.R
+import com.example.android.architecture.common.Constants
 import com.example.android.architecture.models.Post
 import com.example.android.architecture.scenes.post.PostContract.Presenter
 import com.example.android.architecture.scenes.postdetail.EXTRA_POST_ID
 import com.example.android.architecture.scenes.postdetail.PostDetailActivity
-import com.example.android.architecture.utils.startActivity
+import com.example.android.architecture.utils.ActivityUtils
 
 /**
  * ポストのフラグメント
@@ -27,6 +30,7 @@ class PostFragment : Fragment(), PostContract.View {
 
   private lateinit var recyclerView: RecyclerView
   private lateinit var noDataTextView: TextView
+  private lateinit var fingerprintSwitch: Switch
 
   private lateinit var postAdapter: PostAdapter
 
@@ -43,12 +47,19 @@ class PostFragment : Fragment(), PostContract.View {
   ): View? {
     val root: View = inflater.inflate(R.layout.post_fragment, container, false)
 
-    recyclerView = root.findViewById(R.id.rv_post)
-    recyclerView.layoutManager = LinearLayoutManager(activity)
-    recyclerView.itemAnimator = DefaultItemAnimator()
-    recyclerView.adapter = postAdapter
+    recyclerView = root.findViewById<RecyclerView>(R.id.rv_post).apply {
+      layoutManager = LinearLayoutManager(activity)
+      itemAnimator = DefaultItemAnimator()
+      adapter = postAdapter
+    }
 
     noDataTextView = root.findViewById(R.id.tv_post_empty)
+
+    fingerprintSwitch = root.findViewById<Switch>(R.id.sw_post_fingerprint).apply {
+      setOnCheckedChangeListener { _, isChecked ->
+        Constants.enableFingerprintLogin = isChecked
+      }
+    }
 
     return root
   }
@@ -74,7 +85,20 @@ class PostFragment : Fragment(), PostContract.View {
   override fun toPostDetailView(postId: Int) {
     val bundle = Bundle()
     bundle.putInt(EXTRA_POST_ID, postId)
-    startActivity(cls = PostDetailActivity::class.java, extras = bundle)
+    ActivityUtils.startActivity(cls = PostDetailActivity::class.java, extras = bundle)
+  }
+
+  override fun setFingerprintSwitchStatus(
+    isOn: Boolean,
+    isEnabled: Boolean
+  ) {
+    fingerprintSwitch.isChecked = isOn
+    fingerprintSwitch.isEnabled = isEnabled
+    if (!isEnabled) fingerprintSwitch.text = getString(R.string.fingerprint_switch_not_supported)
+  }
+
+  override fun showDialogFragment(dialogFragment: DialogFragment) {
+    dialogFragment.show(fragmentManager, "TestTest")
   }
 
   inner class PostHolder internal constructor(

@@ -1,4 +1,4 @@
-package com.example.android.architecture.data.remote
+package com.example.android.architecture.data.remote.apis
 
 import com.example.android.architecture.BuildConfig
 import com.example.android.architecture.models.Post

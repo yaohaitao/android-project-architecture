@@ -3,8 +3,8 @@ package com.example.android.architecture.scenes.post
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.example.android.architecture.R
-import com.example.android.architecture.utils.addFragment
-import com.example.android.architecture.utils.makePostService
+import com.example.android.architecture.utils.ActivityUtils
+import com.example.android.architecture.utils.ServiceProvider
 
 /**
  * ポストのアクティビティ
@@ -19,11 +19,11 @@ class PostActivity : AppCompatActivity() {
 
     if (postFragment == null) {
       postFragment = PostFragment()
-      addFragment(
+      ActivityUtils.addFragment(
           super.getSupportFragmentManager(), postFragment, R.id.fl_post_container
       )
     }
 
-    PostPresenter(makePostService(), postFragment)
+    PostPresenter(ServiceProvider.makePostService(), postFragment)
   }
 }

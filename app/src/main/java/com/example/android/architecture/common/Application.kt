@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Application
 import android.os.Bundle
+import com.orhanobut.hawk.Hawk
 import java.util.LinkedList
 
 /**
@@ -23,7 +24,8 @@ class Application : Application() {
     application = this
     application.registerActivityLifecycleCallbacks(callbacks)
 
-
+    // SharedPreferencesの操作を便利になるために
+    Hawk.init(applicationContext).build()
 
   }
 

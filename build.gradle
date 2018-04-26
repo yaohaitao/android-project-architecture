@@ -53,4 +53,5 @@ ext {
     rxandroidVersion = '2.0.2'
     retrofit2Version = '2.3.0'
     okhttp3Version = '3.6.0'
+    hawkVersion = '2.0.1'
 }

@@ -1,6 +1,6 @@
 package com.example.android.architecture.services
 
-import com.example.android.architecture.data.remote.PostApi
+import com.example.android.architecture.data.remote.apis.PostApi
 import com.example.android.architecture.models.Post
 import com.google.gson.Gson
 
@@ -8,7 +8,7 @@ import com.google.gson.Gson
  * ポストサービス
  * ポストに関する操作はここで実装される。
  */
-class PostService constructor(val postApi: PostApi) {
+class PostService constructor(private val postApi: PostApi) {
 
   fun fetchPosts() = postApi.fetchPosts()
 

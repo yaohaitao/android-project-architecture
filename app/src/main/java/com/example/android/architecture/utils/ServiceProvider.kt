@@ -1,9 +1,15 @@
-@file:JvmName("ServiceProvider")
 package com.example.android.architecture.utils
 
 import com.example.android.architecture.services.PostService
+import com.example.android.architecture.services.UserService
 
-fun makePostService(): PostService =
-  PostService(
-      makePostApi()
-  )
+object ServiceProvider {
+
+  fun makePostService() = PostService(ApiProvider.makePostApi())
+
+  fun makeUserService() = UserService(ApiProvider.makeUserApi())
+}
+
+
+
+
